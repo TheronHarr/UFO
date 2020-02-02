@@ -11,9 +11,14 @@ public class PlayerController : MonoBehaviour {
 
     public Text winText;
 
+    public Text livesText;
+
     private Rigidbody2D rb2d;
 
     private int count;
+
+    private int countLives;
+    private int lives = countLives.ToString();
 
 
     // Start is called before the first frame update
@@ -22,7 +27,12 @@ public class PlayerController : MonoBehaviour {
         rb2d = GetComponent<Rigidbody2D> ();
         count = 0;
         winText.text = "";
+        
+        livesText.text = "Lives: " + lives;
+        countLives = 3;
+        livesText.text = "Lives: " + countLives.ToString();
         SetCountText();
+        //SetLivesText();
     }
 
     // Update is called once per frame
@@ -42,6 +52,13 @@ public class PlayerController : MonoBehaviour {
             count = count + 1;
             SetCountText();
         }
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.SetActive(false);
+            countLives = countLives - 1;
+            SetCountText();
+            //SetLivesText();
+        }
     }
 
     void SetCountText()
@@ -49,8 +66,24 @@ public class PlayerController : MonoBehaviour {
         countText.text = "Count: " + count.ToString();
         if (count >= 12)
         {
+            Vector2 newPosition = transform.position;
+            newPosition.x = 100;
+            transform.position = newPosition;
             winText.text = "You win! Game created by Theron Harrison.";
+        }
+        if (countLives = 0)
+        {
+            winText.text = "You lose!";
         }
            
     }
+    //void SetLivesText()
+    //{
+        //countlivesText.text = "Lives: " + countLives.ToString();
+       // if (countLives = 0)
+        //{
+          // winText.text = "You lose! Game created by Theron Harrison.";
+        //}
+
+    //}
 }
