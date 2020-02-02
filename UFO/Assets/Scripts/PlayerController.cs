@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour {
     private int count;
 
     private int countLives;
-    private int lives = countLives.ToString();
 
 
     // Start is called before the first frame update
@@ -27,12 +26,9 @@ public class PlayerController : MonoBehaviour {
         rb2d = GetComponent<Rigidbody2D> ();
         count = 0;
         winText.text = "";
-        
-        livesText.text = "Lives: " + lives;
         countLives = 3;
-        livesText.text = "Lives: " + countLives.ToString();
         SetCountText();
-        //SetLivesText();
+        SetLivesText();
     }
 
     // Update is called once per frame
@@ -57,33 +53,35 @@ public class PlayerController : MonoBehaviour {
             other.gameObject.SetActive(false);
             countLives = countLives - 1;
             SetCountText();
-            //SetLivesText();
+            SetLivesText();
         }
     }
 
     void SetCountText()
     {
         countText.text = "Count: " + count.ToString();
-        if (count >= 12)
+        if (count == 12)
         {
             Vector2 newPosition = transform.position;
             newPosition.x = 100;
             transform.position = newPosition;
-            winText.text = "You win! Game created by Theron Harrison.";
-        }
-        if (countLives = 0)
+             
+        }   
+        if (count >= 22)
         {
-            winText.text = "You lose!";
+            winText.text = "You win! Game created by Theron Harrison.";
+            Destroy(rb2d);
         }
-           
     }
-    //void SetLivesText()
-    //{
-        //countlivesText.text = "Lives: " + countLives.ToString();
-       // if (countLives = 0)
-        //{
-          // winText.text = "You lose! Game created by Theron Harrison.";
-        //}
 
-    //}
+    void SetLivesText()
+    {
+        livesText.text = "Lives: " + countLives.ToString();
+        if ((countLives == 0) && (gameObject.tag == "Player"))
+        {
+           Destroy(rb2d);
+           winText.text = "You lose!";
+        }
+
+    }
 }
